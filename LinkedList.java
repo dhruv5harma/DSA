@@ -36,6 +36,7 @@ public class LinkedList {
 		}
 	}
 
+	//method to add elements in Linked List
 	public void add(int data) {
 		if (head == null) {
 			head = new Node(data);
@@ -50,6 +51,7 @@ public class LinkedList {
 
 	}
 
+	//Method to display elements of LinkedList
 	public void display() {
 		if (head == null) {
 			System.out.println("Linkedlist is empty");
@@ -62,6 +64,7 @@ public class LinkedList {
 		System.out.println("");
 	}
 
+	//Method to display elements of LinkedList using recursion
 	public void displayRecursive(Node next) {
 		if (head != null) {
 			System.out.print(head.data + " ");
@@ -70,6 +73,7 @@ public class LinkedList {
 		}
 	}
 
+	//Method to get size of LinkedList
 	public int size() {
 		int count = 0;
 		if (head == null) {
@@ -84,6 +88,7 @@ public class LinkedList {
 		return count;
 	}
 
+	//Method to get sum of elements of LinkedList
 	public int sum() {
 		int sum = 0;
 		Node temp = head;
@@ -94,6 +99,7 @@ public class LinkedList {
 		return sum;
 	}
 
+	//Method to get largest elements of LinkedList
 	public int max() {
 		int max = 0;
 		Node temp = head;
@@ -106,6 +112,7 @@ public class LinkedList {
 		return max;
 	}
 
+	//Method to check if data is present of LinkedList
 	public boolean isPresent(int elem) {
 		Node temp = head;
 		while (temp != null) {
@@ -117,6 +124,7 @@ public class LinkedList {
 		return false;
 	}
 
+	//Method to add element at given index of LinkedList
 	public void add(int index, int data) {
 		Node temp = new Node(data);
 		Node tempNode = head;
@@ -134,6 +142,7 @@ public class LinkedList {
 		}
 	}
 
+	//Method to insert element at index and create LinkedList
 	public void insert(int index, int data) {
 		Node node = new Node(data);
 		if (head == null) {
@@ -149,6 +158,114 @@ public class LinkedList {
 				}
 				node.next = temp.next;
 				temp.next = node;
+			}
+		}
+	}
+
+	//Method to insert element at last position LinkedList at constant time
+	Node tail;
+	public void addAtLast(int data) {
+		Node node = new Node(data);
+		if (head == null) {
+			head = tail = node;
+		} else {
+			tail.next = node;
+			tail = node;
+		}
+	}
+
+	//Method to insert element in sorted LinkedList
+	public void insertInSortedList(int data) {
+		Node node = new Node(data);
+		if (head == null) {
+			head = node;
+		} else if (data < head.data) {
+			node.next = head;
+			head = node;
+		} else {
+			Node temp = head;
+			Node tailingPointer = null;
+			while (temp != null && temp.data < data) {
+				tailingPointer = temp;
+				temp = temp.next;
+			}
+			node.next = tailingPointer.next;
+			tailingPointer.next = node;
+		}
+
+	}
+
+	//Method to delete first occurrence of element from LinkedList
+	public void delete(int data) {
+		if (head == null) {
+			System.out.println("List is Empty");
+		} else if (head.data == data) {
+			head = head.next;
+		} else {
+			Node p = head;
+			Node q = null;
+			while (p != null) {
+				if (p.data == data) {
+					q.next = p.next;
+					break;
+				}
+				q = p;
+				p = p.next;
+			}
+		}
+	}
+
+	//Method to delete index position
+	public int deleteAtIndex(int index) {
+		if (head == null) {
+			System.out.println("LinkedList is empty");
+			return -1;
+		} else if (index == 1) {
+			int data = head.data;
+			head = head.next;
+			return data;
+		} else {
+			Node p = head;
+			Node q = null;
+			for (int i = 1; i < index; i++) {
+				if (p.next == null) {
+					System.out.println("Index does not exist");
+					return -1;
+				}
+				q = p;
+				p = p.next;
+			}
+			int data = p.data;
+			q.next = p.next;
+			return data;
+		}
+	}
+
+	//Method to check if LinkedList is sorted
+	public boolean isSorted() {
+		Node p = head;
+		int data = 0;
+		while (p != null) {
+			if (data > p.data) {
+				return false;
+			}
+			data = p.data;
+			p = p.next;
+		}
+		return true;
+	}
+	
+	//Method to delete duplicate elements from sorted List
+	public void deleteDuplicateElemsFromSortedList() {
+		Node p=head;
+		Node q=head.next;
+		while(q!=null) {
+			if(p.data!=q.data) {
+				p=q;
+				q=q.next;
+			}else {
+				p.next=q.next;
+				q=p.next;
 			}
 		}
 	}
