@@ -36,7 +36,7 @@ public class LinkedList {
 		}
 	}
 
-	//method to add elements in Linked List
+	// method to add elements in Linked List
 	public void add(int data) {
 		if (head == null) {
 			head = new Node(data);
@@ -51,7 +51,7 @@ public class LinkedList {
 
 	}
 
-	//Method to display elements of LinkedList
+	// Method to display elements of LinkedList
 	public void display() {
 		if (head == null) {
 			System.out.println("Linkedlist is empty");
@@ -64,7 +64,7 @@ public class LinkedList {
 		System.out.println("");
 	}
 
-	//Method to display elements of LinkedList using recursion
+	// Method to display elements of LinkedList using recursion
 	public void displayRecursive(Node next) {
 		if (head != null) {
 			System.out.print(head.data + " ");
@@ -73,7 +73,7 @@ public class LinkedList {
 		}
 	}
 
-	//Method to get size of LinkedList
+	// Method to get size of LinkedList
 	public int size() {
 		int count = 0;
 		if (head == null) {
@@ -88,7 +88,7 @@ public class LinkedList {
 		return count;
 	}
 
-	//Method to get sum of elements of LinkedList
+	// Method to get sum of elements of LinkedList
 	public int sum() {
 		int sum = 0;
 		Node temp = head;
@@ -99,7 +99,7 @@ public class LinkedList {
 		return sum;
 	}
 
-	//Method to get largest elements of LinkedList
+	// Method to get largest elements of LinkedList
 	public int max() {
 		int max = 0;
 		Node temp = head;
@@ -112,7 +112,7 @@ public class LinkedList {
 		return max;
 	}
 
-	//Method to check if data is present of LinkedList
+	// Method to check if data is present of LinkedList
 	public boolean isPresent(int elem) {
 		Node temp = head;
 		while (temp != null) {
@@ -124,7 +124,7 @@ public class LinkedList {
 		return false;
 	}
 
-	//Method to add element at given index of LinkedList
+	// Method to add element at given index of LinkedList
 	public void add(int index, int data) {
 		Node temp = new Node(data);
 		Node tempNode = head;
@@ -142,7 +142,7 @@ public class LinkedList {
 		}
 	}
 
-	//Method to insert element at index and create LinkedList
+	// Method to insert element at index and create LinkedList
 	public void insert(int index, int data) {
 		Node node = new Node(data);
 		if (head == null) {
@@ -162,8 +162,9 @@ public class LinkedList {
 		}
 	}
 
-	//Method to insert element at last position LinkedList at constant time
+	// Method to insert element at last position LinkedList at constant time
 	Node tail;
+
 	public void addAtLast(int data) {
 		Node node = new Node(data);
 		if (head == null) {
@@ -174,7 +175,7 @@ public class LinkedList {
 		}
 	}
 
-	//Method to insert element in sorted LinkedList
+	// Method to insert element in sorted LinkedList
 	public void insertInSortedList(int data) {
 		Node node = new Node(data);
 		if (head == null) {
@@ -195,7 +196,7 @@ public class LinkedList {
 
 	}
 
-	//Method to delete first occurrence of element from LinkedList
+	// Method to delete first occurrence of element from LinkedList
 	public void delete(int data) {
 		if (head == null) {
 			System.out.println("List is Empty");
@@ -215,7 +216,7 @@ public class LinkedList {
 		}
 	}
 
-	//Method to delete index position
+	// Method to delete index position
 	public int deleteAtIndex(int index) {
 		if (head == null) {
 			System.out.println("LinkedList is empty");
@@ -241,7 +242,7 @@ public class LinkedList {
 		}
 	}
 
-	//Method to check if LinkedList is sorted
+	// Method to check if LinkedList is sorted
 	public boolean isSorted() {
 		Node p = head;
 		int data = 0;
@@ -254,19 +255,103 @@ public class LinkedList {
 		}
 		return true;
 	}
-	
-	//Method to delete duplicate elements from sorted List
+
+	// Method to delete duplicate elements from sorted List
 	public void deleteDuplicateElemsFromSortedList() {
-		Node p=head;
-		Node q=head.next;
-		while(q!=null) {
-			if(p.data!=q.data) {
-				p=q;
-				q=q.next;
-			}else {
-				p.next=q.next;
-				q=p.next;
+		Node p = head;
+		Node q = head.next;
+		while (q != null) {
+			if (p.data != q.data) {
+				p = q;
+				q = q.next;
+			} else {
+				p.next = q.next;
+				q = p.next;
 			}
+		}
+	}
+
+	// Method to reverse Linkedlist using array
+	public void reverseListWithArray() {
+		Node p = head;
+		int[] tempArray = new int[this.size()];
+		int i = 0;
+		while (p != null) {
+			tempArray[i++] = p.data;
+			p = p.next;
+		}
+		p = head;
+		--i;
+		while (p != null) {
+			p.data = tempArray[i--];
+			p = p.next;
+		}
+	}
+
+	// Method to reverseLinkedList using recursion
+	public void reverseListUsingSlidingPointers() {
+		Node p = head;
+		Node q, r;
+		q = r = null;
+		while (p != null) {
+			r = q;
+			q = p;
+			p = p.next;
+			q.next = r;
+		}
+		head = q;
+	}
+
+	// Method to reverseLinkedList using recursion
+	public void reverseListByRecursion(Node q, Node p) {
+		if (p != null) {
+			reverseListByRecursion(p, p.next);
+			p.next = q;
+		} else {
+			head = q;
+		}
+	}
+
+	// Method to concat two lists
+	public void concat(LinkedList list) {
+		Node temp = head;
+		while (temp.next != null) {
+			temp = temp.next;
+		}
+		temp.next = list.head;
+	}
+
+	//Method to merge two linkedlist
+	public void merge(LinkedList list) {
+		Node p = head;
+		Node q = list.head;
+		Node last = null;
+		if (p.data < q.data) {
+			head = last = p;
+			p = p.next;
+			last.next = null;
+		} else {
+			head = last = q;
+			q = q.next;
+			last.next = null;
+		}
+		while (p != null && q != null) {
+			if (p.data < q.data) {
+				last.next = p;
+				last = p;
+				p = p.next;
+				last.next = null;
+			} else {
+				last.next = q;
+				last = q;
+				q = q.next;
+				last.next = null;
+			}
+		}
+		if (p != null) {
+			last.next = p;
+		} else {
+			last.next = q;
 		}
 	}
 
