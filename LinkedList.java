@@ -22,6 +22,10 @@ public class LinkedList {
 
 	}
 
+	LinkedList(Node node) {
+		this.head = node;
+	}
+
 	LinkedList(int[] arr) {
 		if (arr.length == 0) {
 			System.out.println("Invalid array");
@@ -288,7 +292,7 @@ public class LinkedList {
 		}
 	}
 
-	// Method to reverseLinkedList using recursion
+	// Method to reverse LinkedList using sliding pointer
 	public void reverseListUsingSlidingPointers() {
 		Node p = head;
 		Node q, r;
@@ -321,7 +325,7 @@ public class LinkedList {
 		temp.next = list.head;
 	}
 
-	//Method to merge two linkedlist
+	// Method to merge two sorted linkedlist
 	public void merge(LinkedList list) {
 		Node p = head;
 		Node q = list.head;
@@ -353,6 +357,193 @@ public class LinkedList {
 		} else {
 			last.next = q;
 		}
+	}
+
+	//Method to check if linked list has loops
+	public boolean isLinkedListHasLoops() {
+		Node fast = head;
+		Node slow = head;
+		/*
+		 * while (fast != null) { fast = fast.next.next; slow = slow.next; if (fast ==
+		 * slow) { return true; } }
+		 */
+		// fast.next.next.next = fast.next;//to create loop in linked list we can use
+		// this
+		do {
+			fast = fast.next;
+			slow = slow.next;
+			fast = fast != null ? fast.next : null;
+		} while (fast != null && fast != slow);
+		return fast == slow;
+	}
+
+	// Method to create Circular Linked List
+	public LinkedList createCircularList(int arr[]) {
+		if (arr.length != 0) {
+			Node node = new Node(arr[0]);
+			head = node;
+			for (int i = 1; i < arr.length; i++) {
+				Node temp = new Node(arr[i]);
+				node.next = temp;
+				node = temp;
+			}
+			node.next = head;
+		}
+		return new LinkedList(head);
+	}
+
+	// Method to display Circular Linked List
+	public void displayCircularList() {
+		if (head == null) {
+			System.out.println("List is empty");
+			return;
+		}
+		Node temp = head;
+		do {
+			System.out.print(temp.data + " ");
+			temp = temp.next;
+		} while (temp != head);
+		System.out.println("");
+	}
+
+	// Method to insert Circular Linked List
+	public void insertInCricularList(int data) {
+		Node node = new Node(data);
+		if (head == null) {
+			head = node;
+			head.next = head;
+			return;
+		}
+		Node temp = head;
+		do {
+			temp = temp.next;
+		} while (temp.next != head);
+		node.next = head;
+		temp.next = node;
+	}
+
+	// Method to insert Circular Linked List at given Index
+	public void insertInCricularList(int index, int data) {
+		if (head == null) {
+			this.insertInCricularList(data);
+			return;
+		}
+		Node node = new Node(data);
+		Node temp = head;
+		if (index == 0) {
+			while (temp.next != head) {
+				temp = temp.next;
+			}
+			head = node;
+		} else {
+			for (int i = 1; i < index; i++) {
+				temp = temp.next;
+			}
+		}
+		node.next = temp.next;
+		temp.next = node;
+	}
+
+	// Method to get size of Circular Linked List
+	public int sizeOfCircularList() {
+		if (head == null) {
+			return 0;
+		}
+		Node temp = head;
+		int length = 0;
+		do {
+			temp = temp.next;
+			length++;
+		} while (temp != head);
+		return length;
+	}
+
+	// Method to delete element from Circular Linked List at given Index
+	public int deleteFromCircularList(int index) {
+		int deletedNodeData = -1;
+		if (head == null) {
+			return deletedNodeData;
+		}
+		Node temp = head;
+		if (index == 1) {
+			while (temp.next != head) {
+				temp = temp.next;
+			}
+			temp.next = head.next;
+			deletedNodeData = head.data;
+			head = head.next;
+			return deletedNodeData;
+		} else {
+			for (int i = 1; i < index - 1; i++) {
+				temp = temp.next;
+			}
+			deletedNodeData = temp.next.data;
+			temp.next = temp.next.next;
+			head = temp;
+			return deletedNodeData;
+		}
+	}
+
+	// static inner class to create node of doubly type
+	static class DNode {
+		DNode prev;
+		int data;
+		DNode next;
+
+		DNode(int data) {
+			prev = null;
+			this.data = data;
+			next = null;
+		}
+	}
+
+	DNode dhead;
+
+	LinkedList(DNode node) {
+		this.dhead = node;
+	}
+
+	// Method to create Doubly LinkedList
+	public LinkedList createDoublyLinkedList(int[] arr) {
+		if (arr.length == 0) {
+			System.out.println("List is empty");
+			return null;
+		}
+		DNode temp = new DNode(arr[0]);
+		dhead = temp;
+		DNode dnode;
+		for (int i = 1; i < arr.length; i++) {
+			dnode = new DNode(arr[i]);
+			temp.next = dnode;
+			dnode.prev = temp;
+			temp = dnode;
+		}
+		return new LinkedList(dhead);
+	}
+
+	// Method to display Doubly LinkedList
+	public void displayDoublyList() {
+		DNode temp = dhead;
+		while (temp != null) {
+			System.out.print(temp.data + " ");
+			temp = temp.next;
+		}
+		System.out.println("");
+	}
+
+	// Method to get size of Doubly LinkedList
+	public int sizeOfDoublyList() {
+		if (dhead == null) {
+			return 0;
+		}
+		DNode temp = dhead;
+		int length = 0;
+		while (temp != null) {
+			length++;
+			temp=temp.next;
+		}
+		return length;
+
 	}
 
 }
