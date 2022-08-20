@@ -359,7 +359,7 @@ public class LinkedList {
 		}
 	}
 
-	//Method to check if linked list has loops
+	// Method to check if linked list has loops
 	public boolean isLinkedListHasLoops() {
 		Node fast = head;
 		Node slow = head;
@@ -540,10 +540,61 @@ public class LinkedList {
 		int length = 0;
 		while (temp != null) {
 			length++;
-			temp=temp.next;
+			temp = temp.next;
 		}
 		return length;
 
+	}
+
+	// Method to insert in doubly linked list
+	public void insertInDoublyList(int index, int data) {
+		if (this.sizeOfDoublyList() < index) {
+			System.out.println("Invalid Index");
+			return;
+		}
+		DNode temp = new DNode(data);
+		if (dhead == null) {
+			dhead = temp;
+			return;
+		}
+		if (index == 0) {
+			temp.next = dhead;
+			dhead.prev = temp;
+			dhead = temp;
+		} else {
+			DNode p = dhead;
+			for (int i = 1; i < index; i++) {
+				p = p.next;
+			}
+			temp.next = p.next;
+			temp.prev = p;
+			if (p.next != null) {
+				p.next.prev = temp;
+			}
+			p.next = temp;
+		}
+	}
+
+	public int deleteFromDoublyList(int index) {
+		int data;
+		if (this.sizeOfDoublyList() < index) {
+			System.out.println("Invalid Index");
+			data = -1;
+		} else if (this.sizeOfDoublyList() == 1) {
+			data = dhead.data;
+			dhead = null;
+		} else if (index == 0) {
+			data = dhead.data;
+			dhead = dhead.next;
+		} else {
+			DNode p = dhead;
+			for (int i = 1; i < index - 1; i++) {
+				p = p.next;
+			}
+			data = p.next.data;
+			p.next = p.next.next;
+		}
+		return data;
 	}
 
 }
