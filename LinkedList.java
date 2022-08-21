@@ -575,6 +575,7 @@ public class LinkedList {
 		}
 	}
 
+	// Method to delete Node from given Index
 	public int deleteFromDoublyList(int index) {
 		int data;
 		if (this.sizeOfDoublyList() < index) {
@@ -595,6 +596,203 @@ public class LinkedList {
 			p.next = p.next.next;
 		}
 		return data;
+	}
+
+	// Method to reverse doubly linked list
+	public void reverseDoublyList() {
+		if (dhead == null) {
+			System.out.println("List is empty");
+			return;
+		} else if (this.sizeOfDoublyList() == 1) {
+			return;
+		} else {
+			DNode p = dhead;
+			DNode q = null;
+			while (p != null) {
+				q = p;
+				p = p.next;
+				q.next = q.prev;
+				q.prev = p;
+			}
+			dhead = q;
+
+		}
+	}
+
+	// Method to merge 2 sorted doubly linked list
+	public void mergeDoublyList(LinkedList list) {
+		if (list.dhead == null) {
+			return;
+		} else {
+			DNode p = dhead;
+			DNode q = list.dhead;
+			DNode last = null;
+			if (p.data < q.data) {
+				dhead = p;
+				last = p;
+				p = p.next;
+				last.next = last.prev = p.prev = null;
+			} else {
+				dhead = q;
+				last = q;
+				q = q.next;
+				last.next = last.prev = q.prev = null;
+			}
+			while (p != null && q != null) {
+				if (p.data > q.data) {
+					last.next = q;
+					q.prev = last;
+					last = q;
+					q = q.next;
+					last.next = null;
+				} else {
+					last.next = p;
+					p.prev = last;
+					last = p;
+					p = p.next;
+					last.next = null;
+				}
+			}
+			if (p == null) {
+				last.next = q;
+				q.prev = last;
+			} else {
+				last.next = p;
+				p.prev = q;
+			}
+
+		}
+	}
+
+	// Method to create doubly Circular Linked List
+	public LinkedList createDoublyCircularList(int arr[]) {
+		if (arr.length == 0) {
+			System.out.println("Input array is empty");
+		} else {
+			dhead = new DNode(arr[0]);
+			DNode p = dhead;
+			DNode temp;
+			for (int i = 1; i < arr.length; i++) {
+				temp = new DNode(arr[i]);
+				temp.prev = p;
+				p.next = temp;
+				temp.next = null;
+				p = temp;
+			}
+			p.next = dhead;
+			dhead.prev = p;
+		}
+		return new LinkedList(dhead);
+	}
+
+	// Method to display doubly Circular Linked List
+	public void displayDoublyCircularList() {
+		if (dhead == null) {
+			System.out.println("List is empty");
+			return;
+		}
+		DNode p = dhead;
+		do {
+			System.out.print(p.data + " ");
+			p = p.next;
+		} while (p != dhead);
+		System.out.println("");
+	}
+
+	// Method to get size of doubly Circular Linked List
+	public int sizeOfDoublyCircularList() {
+		int len = 0;
+		if (dhead == null) {
+			return len;
+		}
+		DNode p = dhead;
+		do {
+			len++;
+			p = p.next;
+		} while (p != dhead);
+		return len;
+	}
+
+	// Method to insert at given index in Circular Linked List
+	public void insertInDoublyCircularList(int index, int data) {
+		int length = this.sizeOfDoublyCircularList();
+		if (index > length) {
+			System.out.println("Invalid Index");
+			return;
+		}
+		DNode temp = new DNode(data);
+		if (dhead == null && index == 0) {
+			dhead = temp;
+			dhead.next = dhead.prev = dhead;
+			return;
+		} else if (index == 0 || index == length) {
+			temp.next = dhead;
+			temp.prev = dhead.prev;
+			dhead.prev.next = temp;
+			dhead.prev = temp;
+			dhead = temp;
+			return;
+		} else {
+			DNode p = dhead;
+			for (int i = 1; i < index; i++) {
+				p = p.next;
+			}
+			temp.next = p.next;
+			temp.prev = p;
+			p.next.prev = temp;
+			p.next = temp;
+		}
+	}
+
+	// Method to delete node at given index from doubly Circular Linked List
+	public int deleteFromDoublyCircularList(int index) {
+		int length = this.sizeOfDoublyCircularList();
+		int data;
+		if (index > length) {
+			System.out.println("Invalid Index");
+			return -1;
+		} else if (index == 1 && length == 1) {
+			data = dhead.data;
+			dhead = null;
+			return data;
+		} else {
+			DNode p = dhead;
+			if (index == 1) {
+				data = dhead.data;
+				dhead.prev.next = dhead.next;
+				dhead.next.prev = dhead.prev;
+				dhead = dhead.next;
+				p.next = p.prev = null;
+				return dhead.data;
+			}
+			for (int i = 1; i < index - 1; i++) {
+				p = p.next;
+			}
+			data = p.next.data;
+			p.next.next.prev = p;
+			p.next = p.next.next;
+			return data;
+		}
+	}
+
+	// Method to find middle element in Singly Linked List
+	public int findMiddleElement() {
+		if (head == null) {
+			System.out.println("List is empty");
+			return -1;
+		}
+		Node p = head;
+		Node q = head;
+		while (q != null) {
+			q = q.next;
+			if (q != null) {
+				q = q.next;
+			}
+			if (q != null) {
+				p = p.next;
+			}
+		}
+		return p.data;
 	}
 
 }
