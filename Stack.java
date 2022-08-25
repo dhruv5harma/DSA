@@ -81,7 +81,7 @@ public class Stack {
 		System.out.println("");
 	}
 
-	// Method to peak last element
+	// Method to peak last element in a stack
 	public int peak() {
 		if (top == null) {
 			System.out.println("Stack is empty");
